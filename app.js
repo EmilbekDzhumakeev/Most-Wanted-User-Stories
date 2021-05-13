@@ -13,6 +13,7 @@ function app(people){
       break;
     case 'no':
       // TODO: search by traits
+      searchByTrait();
       break;
       default:
     app(people); // restart app
@@ -111,4 +112,32 @@ function yesNo(input){
 // helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
+}
+function searchByTrait() {
+  let traitSelection = prompt("Please enter which trait you would like to search for.(dob,height,weight,eyeColor,occupation");
+  switch(traitSelection){
+      case "dob":
+      
+      break;
+      case "height":
+        
+      break;
+
+      case "weight":
+
+      break;
+
+      case "eyecolor":
+
+      break;
+
+      case "occupation":
+
+      break;
+
+      default:
+      return traitSelection();
+
+
+  }
 }
