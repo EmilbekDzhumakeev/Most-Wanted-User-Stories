@@ -12,7 +12,11 @@ function app(people){
       break;
     case 'no':
       // TODO: search by traits
+<<<<<<< HEAD
       searchResults = searchByTrait(people);
+=======
+      searchByTrait();
+>>>>>>> 703214a0f1d205ebf4d1772e624348aec5995ea3
       break;
       default:
     app(people); // restart app
@@ -24,6 +28,11 @@ function app(people){
 }
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 703214a0f1d205ebf4d1772e624348aec5995ea3
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
   
   
@@ -31,7 +40,13 @@ function mainMenu(person, people){
     alert("Could not find that individual.");
     return app(people); // restart
   }
+<<<<<<< HEAD
   let displayOption = prompt("Found " + unzippedPerson.firstName + " " + unzippedPerson.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+=======
+
+  let displayOption = prompt("Found " + person[0].firstName + " " + person[0].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+
+>>>>>>> 703214a0f1d205ebf4d1772e624348aec5995ea3
   switch(displayOption){
     case "info":
     // TODO: get person's info
@@ -78,6 +93,7 @@ function displayPeople(people){
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
+<<<<<<< HEAD
   let personInfo = "First Name: " + unzippedPerson.firstName + "\n";
   personInfo += "Last Name: " + unzippedPerson.lastName + "\n";
   personInfo += "Gender: " + unzippedPerson.gender + "\n";
@@ -86,6 +102,16 @@ function displayPerson(person){
   personInfo += "Weight: " + unzippedPerson.weight + "\n";
   personInfo += "Eye Color: " + unzippedPerson.eyeColor + "\n";
   personInfo += "Occupation: " + unzippedPerson.occupation + "\n";
+=======
+  let personInfo = "First Name: " + person[0].firstName + "\n";
+  personInfo += "Last Name: " + person[0].lastName + "\n";
+  personInfo += "Gender: " + person[0].gender + "\n";
+  personInfo += "Date Of Birth: " + person[0].dob + "\n";
+  personInfo += "Height: " + person[0].height + "\n";
+  personInfo += "Weight: " + person[0].weight + "\n";
+  personInfo += "Eye Color: " + person[0].eyeColor + "\n";
+  personInfo += "Occupation: " + person[0].occupation + "\n";
+>>>>>>> 703214a0f1d205ebf4d1772e624348aec5995ea3
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
@@ -104,6 +130,7 @@ function yesNo(input){
 function chars(input){
   return true; // default validation only
 }
+<<<<<<< HEAD
 let searchResults;
 function searchByTrait(people) {
   let traitSelection = prompt("Please enter which trait you would like to search for.(dob,height,weight,eyecolor,occupation");
@@ -204,3 +231,33 @@ function searchWeight (people){
       return foundPerson;  
     }  
     //////////////////////////////////////////////////////////////////////////////////////////////////
+=======
+function searchByTrait() {
+  let traitSelection = prompt("Please enter which trait you would like to search for.(dob,height,weight,eyeColor,occupation");
+  switch(traitSelection){
+      case "dob":
+      
+      break;
+      case "height":
+        
+      break;
+
+      case "weight":
+
+      break;
+
+      case "eyecolor":
+
+      break;
+
+      case "occupation":
+
+      break;
+
+      default:
+      return traitSelection();
+
+
+  }
+}
+>>>>>>> 703214a0f1d205ebf4d1772e624348aec5995ea3
