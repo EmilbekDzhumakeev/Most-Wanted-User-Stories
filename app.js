@@ -2,8 +2,9 @@
 /*
 Build all of your functions for displaying and gathering information below (GUI).
 */
+//////////////////////////////////////////////////////////////////////////////////////
 
-// app is the function called to start the entire application
+// app is the function called to start the entire application 
 function app(people){
   let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
@@ -22,7 +23,7 @@ function app(people){
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
   mainMenu(searchResults, people);
 }
-
+//////////////////////////////////////////////////////////////////////////////////////
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
 
@@ -32,7 +33,7 @@ function mainMenu(person, people){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-
+  
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
@@ -53,31 +54,33 @@ function mainMenu(person, people){
     default:
     return mainMenu(person, people); // ask again
   }
-}
-
+}    
+///////////////////////////////////////////////////////////////////////////////////
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
 
   let foundPerson = people.filter(function(person){
     if(person.firstName === firstName && person.lastName === lastName){
-      return true;
-    }
-    else{
-      return false;
+     // console.log("Person 1"+ person);
+      return true; }
+    else { 
+      console.log("foult 1"+ person);
+      return false;  
     }
   })
-  // TODO: find the person using the name they entered
+  // TODO: find the person using the name they entered 
+
   return foundPerson;
 }
-
+////////////////////////////////////////////////////////////////////////////////////
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
-
+//////////////////////////////////////////////////////////////////////////////////////
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
@@ -86,7 +89,7 @@ function displayPerson(person){
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
-
+//////////////////////////////////////////////////////////////////////////////////////
 // function that prompts and validates user input
 function promptFor(question, valid){
   do{
@@ -94,13 +97,14 @@ function promptFor(question, valid){
   } while(!response || !valid(response));
   return response;
 }
-
+//////////////////////////////////////////////////////////////////////////////////////
 // helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
-
+//////////////////////////////////////////////////////////////////////////////////////
 // helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
 }
+////////////////////////////////////////////////////////////////////////////////////// 
