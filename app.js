@@ -2,9 +2,7 @@
 /*
 Build all of your functions for displaying and gathering information below (GUI).
 */
-//////////////////////////////////////////////////////////////////////////////////////
-
-// app is the function called to start the entire application 
+// app is the function called to start the entire application
 function app(people){
   let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
@@ -14,6 +12,7 @@ function app(people){
       break;
     case 'no':
       // TODO: search by traits
+      searchResults = searchByTrait(people);
       break;
       default:
     app(people); // restart app
@@ -23,22 +22,20 @@ function app(people){
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
   mainMenu(searchResults, people);
 }
-//////////////////////////////////////////////////////////////////////////////////////
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
-
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
-
+  
+  
   if(!person){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-  
-  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
+  let displayOption = prompt("Found " + unzippedPerson.firstName + " " + unzippedPerson.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
   switch(displayOption){
     case "info":
     // TODO: get person's info
+    displayPerson(person);
     break;
     case "family":
     // TODO: get person's family
@@ -54,42 +51,44 @@ function mainMenu(person, people){
     default:
     return mainMenu(person, people); // ask again
   }
-}    
-///////////////////////////////////////////////////////////////////////////////////
+}
+ let unzippedPerson;
 function searchByName(people){
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
-
   let foundPerson = people.filter(function(person){
     if(person.firstName === firstName && person.lastName === lastName){
-     // console.log("Person 1"+ person);
-      return true; }
-    else { 
-      console.log("foult 1"+ person);
-      return false;  
+      return true;
+    }
+    else{
+      return false;
     }
   })
-  // TODO: find the person using the name they entered 
-
-  return foundPerson;
+  // TODO: find the person using the name they entered
+ unzippedPerson = foundPerson.shift();
+  console.log(unzippedPerson);
+  return unzippedPerson;
 }
-////////////////////////////////////////////////////////////////////////////////////
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
-//////////////////////////////////////////////////////////////////////////////////////
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
+  let personInfo = "First Name: " + unzippedPerson.firstName + "\n";
+  personInfo += "Last Name: " + unzippedPerson.lastName + "\n";
+  personInfo += "Gender: " + unzippedPerson.gender + "\n";
+  personInfo += "Date Of Birth: " + unzippedPerson.dob + "\n";
+  personInfo += "Height: " + unzippedPerson.height + "\n";
+  personInfo += "Weight: " + unzippedPerson.weight + "\n";
+  personInfo += "Eye Color: " + unzippedPerson.eyeColor + "\n";
+  personInfo += "Occupation: " + unzippedPerson.occupation + "\n";
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
-//////////////////////////////////////////////////////////////////////////////////////
 // function that prompts and validates user input
 function promptFor(question, valid){
   do{
@@ -97,14 +96,111 @@ function promptFor(question, valid){
   } while(!response || !valid(response));
   return response;
 }
-//////////////////////////////////////////////////////////////////////////////////////
 // helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
-//////////////////////////////////////////////////////////////////////////////////////
 // helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
 }
-////////////////////////////////////////////////////////////////////////////////////// 
+let searchResults;
+function searchByTrait(people) {
+  let traitSelection = prompt("Please enter which trait you would like to search for.(dob,height,weight,eyecolor,occupation");
+  
+  switch(traitSelection){
+      case "dob":
+        searchResults = searchDob(people); 
+      break;
+      case "height": 
+      searchResults = searchHeight(people)
+      break;
+      case "weight":
+        searchResults = searchWeight(people);
+      break;
+      case "eyecolor":
+        searchResults = searchEyeColor(people);
+      break;
+      case "occupation":
+        searchResults = searchOccupation(people);
+      break;
+      default:
+      return traitSelection();
+  } 
+ return searchResults;
+}  
+//////////////////////////////////////////////////////////////////////////////////////////////////
+function searchDob(people){
+  let dob = prompt("What is the person's dob?");
+  let foundPerson = people.filter(function(person){
+    if(person.dob === dob ){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  // TODO: find the person using the name they entered
+  console.log(foundPerson);
+  return foundPerson 
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+function searchWeight (people){
+  let weight = parseInt(prompt("What is the person's weight?"));
+  let foundPerson = people.filter(function(person){
+    if(person.weight === weight ){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+  console.log(foundPerson);
+  return foundPerson 
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+  function searchEyeColor(people){
+    let eyeColor = prompt("What is the person's eye color?");
+    let foundPerson = people.filter(function(person){
+      if(person.eyeColor === eyeColor ){
+        return true;
+      }
+      else{
+        return false;
+      }
+    })
+    console.log(foundPerson);
+    return foundPerson 
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+    function searchOccupation(people){
+      let occupation = prompt("What is the person's occupation?");
+      let foundPerson = people.filter(function(person){
+        if(person.occupation === occupation ){
+          return true;
+        }
+        else{
+          return false;
+        }
+      })
+      console.log(foundPerson);
+      return foundPerson
+    }  
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    function searchHeight(people){
+      let height = parseInt(prompt("What is the person's height")); 
+    
+      //let lastName = promptFor("What is the person's last name?", chars);
+      let foundPerson = people.filter(function(person){
+        if(person.height === height ){
+          return true;
+        }
+        else{
+          return false;
+        }
+      })
+      // TODO: find the person using the name they entered
+     console.log(foundPerson);
+      return foundPerson;  
+    }  
+    //////////////////////////////////////////////////////////////////////////////////////////////////
