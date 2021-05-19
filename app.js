@@ -8,13 +8,14 @@ function app(people){
   let searchResults;
   switch(searchType){
     case 'yes':
-      searchResults = searchByName(people);
+      displayPerson(searchByName(people));
+      isUserSatisfied(people);
       break;
     case 'no':
       // TODO: search by traits
-
-      searchResults = searchByTrait(people);
-
+      displayMultiple(searchByTrait(people));
+      isUserSatisfied(people);
+      
       break;
       default:
     app(people); // restart app
@@ -26,7 +27,6 @@ function app(people){
 }
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
-
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
   
   
@@ -34,18 +34,21 @@ function mainMenu(person, people){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-
-  let displayOption = prompt("Found " + unzippedPerson.firstName + " " + unzippedPerson.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
+  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
   switch(displayOption){
     case "info":
     // TODO: get person's info
-    displayPerson(person);
+    displayPerson(unzippedPerson); 
+    app(people);
     break;
-    case "family":
+    case "family": 
+   family(people,person.lastName); 
+   app(people);
     // TODO: get person's family
     break;
-    case "descendants":
+    case "descendants": 
+    descendants(people, person.id); 
+    app(people);
     // TODO: get person's descendants
     break;
     case "restart":
@@ -83,16 +86,14 @@ function displayPeople(people){
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-
-  let personInfo = "First Name: " + unzippedPerson.firstName + "\n";
-  personInfo += "Last Name: " + unzippedPerson.lastName + "\n";
-  personInfo += "Gender: " + unzippedPerson.gender + "\n";
-  personInfo += "Date Of Birth: " + unzippedPerson.dob + "\n";
-  personInfo += "Height: " + unzippedPerson.height + "\n";
-  personInfo += "Weight: " + unzippedPerson.weight + "\n";
-  personInfo += "Eye Color: " + unzippedPerson.eyeColor + "\n";
-  personInfo += "Occupation: " + unzippedPerson.occupation + "\n";
-
+  let personInfo = "First Name: " + person.firstName + "\n";
+  personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Date Of Birth: " + person.dob + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
@@ -111,9 +112,10 @@ function yesNo(input){
 function chars(input){
   return true; // default validation only
 }
-
 let searchResults;
 function searchByTrait(people) {
+  let numberTraits = prompt ("Do you want to search for multiple traits? yes / no "); 
+  if (numberTraits === "no"){
   let traitSelection = prompt("Please enter which trait you would like to search for.(dob,height,weight,eyecolor,occupation");
   
   switch(traitSelection){
@@ -135,8 +137,17 @@ function searchByTrait(people) {
       default:
       return traitSelection();
   } 
- return searchResults;
+ return searchResults; 
+}
+else if(numberTraits === "yes") {
+  searchByMultipleTraits(people); 
+  } 
+  else {
+    alert("Invalid Input, Please try again.")
+    searchByTrait(people);}
+return searchResults; 
 }  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 function searchDob(people){
   let dob = prompt("What is the person's dob?");
@@ -197,8 +208,6 @@ function searchWeight (people){
     //////////////////////////////////////////////////////////////////////////////////////////////////
     function searchHeight(people){
       let height = parseInt(prompt("What is the person's height")); 
-    
-      //let lastName = promptFor("What is the person's last name?", chars);
       let foundPerson = people.filter(function(person){
         if(person.height === height ){
           return true;
@@ -207,10 +216,107 @@ function searchWeight (people){
           return false;
         }
       })
-      // TODO: find the person using the name they entered
      console.log(foundPerson);
       return foundPerson;  
     }  
     //////////////////////////////////////////////////////////////////////////////////////////////////
+    function searchByMultipleTraits(people){
+      let traitSelection =[]; 
+      let traitSelection2 = [];
+      while (traitSelection !== "-1"){
+      traitSelection = prompt("Please enter multiple traits you would like to search for: ( dob, height, weight, eyecolor, occupation or -1 to finish list of traits )");
+      traitSelection2.push(traitSelection);
+    } traitSelection2.pop();
+      let lessPeople=[];
+      for (let i = 0; i < traitSelection2.length; i++){
+ 
+    if (traitSelection2[i] === "dob"){
+      lessPeople = searchDob(people); 
+      people = lessPeople;
+    } else if (traitSelection2[i] === "height"){
+        lessPeople = searchHeight(people); 
+        people = lessPeople;
+    } else if (traitSelection2[i] === "weight"){
+        lessPeople = searchWeight(people); 
+        people = lessPeople;
+    } else if (traitSelection2[i] === "eyecolor"){
+          lessPeople = searchEyeColor(people); 
+          people = lessPeople;
+    } else if (traitSelection2[i] === "occupation"){
+            lessPeople = searchOccupation(people); 
+            people = lessPeople; 
+}  
+else {console.log("else was activated");}
+}  
+searchResults = lessPeople;
+ return searchResults; 
+    }
+    
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//helper function to check satisfaction of user(pass when you're looking to close out user interaction.)
+    function isUserSatisfied(people){
+      let isUserHappy = prompt("Did you find who you were looking for?('yes' or 'no')");
+      switch(isUserHappy){
+        case "yes": 
+        return process.exit(1);// stop execution 
+        case "no":
+          app(people);
+       default:
+    return mainMenu(person, people); // ask again
+        
+      }
+    }
+////////////////////////////////////////////////////////////// 
 
-  
+function family(people, newName){ 
+  let lastName = newName;
+    let foundPerson = people.filter(function(person){
+      if( person.lastName === lastName){
+        return true;
+      }
+      else{
+        return false;
+      }
+    });
+    for(let i = 0; i < foundPerson.length; i++)
+    {
+      let testPerson = foundPerson[i];
+      displayPerson(testPerson);
+    }
+    console.log(foundPerson);
+    return foundPerson 
+  } 
+   
+  ////////////////////////////////////////////////////////////// 
+
+function descendants(people, id){ 
+
+    let foundPerson = people.filter(function(person){
+      if( parseInt(person.parents) === parseInt(id)){
+        return true;
+      }
+      else{
+        return false;
+      }
+    });
+    for(let i = 0; i < foundPerson.length; i++)
+    {
+      let testPerson = foundPerson[i];
+      displayPerson(testPerson);
+    }
+    console.log(foundPerson);
+    return foundPerson 
+  } 
+   
+  //////////////////////////////////////////////////////////////////// 
+   
+  function displayMultiple(){ 
+if (searchResults.length > 0 ){
+    for(let i = 0; i < searchResults.length; i++)
+    {
+      let testPerson = searchResults[i];
+       displayPerson(testPerson);
+    }
+  } 
+ else { displayPerson(searchResults); } 
+}
