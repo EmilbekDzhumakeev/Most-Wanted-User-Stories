@@ -149,6 +149,7 @@ return searchResults;
 }  
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 function searchDob(people){
   let dob = prompt("What is the person's dob?");
   let foundPerson = people.filter(function(person){
@@ -159,6 +160,11 @@ function searchDob(people){
       return false;
     }
   })
+  for(let i = 0; i < foundPerson.length; i++)
+  {
+    let testPerson = foundPerson[i];
+    displayPerson(testPerson);
+  }
   // TODO: find the person using the name they entered
   console.log(foundPerson);
   return foundPerson 
@@ -174,6 +180,11 @@ function searchWeight (people){
       return false;
     }
   })
+  for(let i = 0; i < foundPerson.length; i++)
+  {
+    let testPerson = foundPerson[i];
+    displayPerson(testPerson);
+  }
   console.log(foundPerson);
   return foundPerson 
 }
@@ -188,6 +199,13 @@ function searchWeight (people){
         return false;
       }
     })
+    for(let i = 0; i < foundPerson.length; i++)
+   {
+     let testPerson = foundPerson[i];
+     displayPerson(testPerson);
+   }
+  
+  
     console.log(foundPerson);
     return foundPerson 
 }
@@ -202,6 +220,11 @@ function searchWeight (people){
           return false;
         }
       })
+      for(let i = 0; i < foundPerson.length; i++)
+      {
+        let testPerson = foundPerson[i];
+        displayPerson(testPerson);
+      }
       console.log(foundPerson);
       return foundPerson
     }  
